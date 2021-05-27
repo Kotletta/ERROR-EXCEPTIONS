@@ -39,7 +39,7 @@ public class Group {
         }
         return result;
     }
-    public double getAverageGradeStudent (Student name){
+    public double getAverageGradeStudent (String name){
         Double average = Double.valueOf(0);
         for (Student student:studentList) {
             if (student.getName().equals(name)){
