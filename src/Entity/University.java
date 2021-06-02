@@ -3,6 +3,7 @@ package Entity;
 import Enums.EnumFaculty;
 import Enums.EnumGroups;
 import Enums.EnumSubjects;
+import Exception.LackFacultyInUniversityException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,17 @@ public class University {
     private List<Faculty> facultyList = new ArrayList<Faculty>();
 
     public University(List<Faculty> facultyList) {
+        if (facultyList.isEmpty() || facultyList == null) {
+            try {
+                throw new LackFacultyInUniversityException();
+            } catch (LackFacultyInUniversityException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.facultyList = facultyList;
     }
+
     public void addFacultyInUniversity (ArrayList<Faculty> universityList){
         this.facultyList = universityList;
     }
@@ -23,7 +33,7 @@ public class University {
         for (Faculty faculty : facultyList) {
             for (Group group: faculty.getGroupList()) {
                 if (group.checkingStudentByGroup(nameStudent)){
-                    System.out.println(AVERAGE_GRADE_IN_ALL_SUBJECTS + nameStudent + IS
+                    System.out.println(AVERAGE_GRADE_IN_ALL_SUBJECTS + " " + nameStudent + IS
                             + group.getAverageGradeStudent(nameStudent) + GROUP + group.getEnumGroup());
                 }
             }
@@ -55,7 +65,24 @@ public class University {
                 average = sumGradesBySubjects / groupByName.getStudentList().size();
             }
         }
-        System.out.println("Средний баал по " + enumSubjects + " в группе " + enumGroups + " на факультете " + enumFaculty + " равен " + average);
+        System.out.println("Средний балл по " + enumSubjects + " в группе " + enumGroups + " на факультете " + enumFaculty + " равен " + average);
+    }
+    public void averageGradeInSubjectForTheWholeUniversity (EnumSubjects enumSubjects) {
+        double sumGradeBySubject = 0;
+        double average = 0;
+        int countStudentWithGradeBySubject = 0;
+        for (Faculty f : facultyList) {
+            for (Group g : f.getGroupList()) {
+                for (Student s : g.getStudentList()) {
+                    if (s.checkingTheSubjectWithStudent(enumSubjects)){
+                        sumGradeBySubject += s.getGrade(enumSubjects);
+                        countStudentWithGradeBySubject++;
+                    }
+                }
+            }
+        }
+        average = sumGradeBySubject / countStudentWithGradeBySubject;
+        System.out.println("Средний балл по предмету " + enumSubjects + " для всего университета составляет " + average);
     }
 }
 

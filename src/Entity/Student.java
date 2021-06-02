@@ -1,9 +1,9 @@
 package Entity;
 
 import Enums.EnumSubjects;
-
 import java.util.HashMap;
 import java.util.Map;
+import Exception.LackOfSubjectException;
 
 public class Student {
     private String name;
@@ -36,7 +36,10 @@ public class Student {
         return listGradesBySubjects;
     }
 
-    public void setListGradesBySubjects(HashMap<EnumSubjects, Integer> listGradesBySubjects) {
+    public void setListGradesBySubjects(HashMap<EnumSubjects, Integer> listGradesBySubjects) throws LackOfSubjectException {
+        if (listGradesBySubjects.isEmpty() || listGradesBySubjects == null){
+            throw new LackOfSubjectException();
+        }
         this.listGradesBySubjects = listGradesBySubjects;
     }
 

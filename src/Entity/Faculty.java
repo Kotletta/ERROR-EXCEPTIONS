@@ -2,6 +2,7 @@ package Entity;
 
 import Enums.EnumFaculty;
 import Enums.EnumGroups;
+import Exception.LackGroupInFacultyException;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ public class Faculty {
     private EnumFaculty enumFaculty;
     private List<Group> groupList;
 
-    public Faculty(EnumFaculty enumFaculty, List<Group> groupList) {
-        this.enumFaculty = enumFaculty;  // add Exceptions
+    public Faculty (EnumFaculty enumFaculty, List<Group> groupList) {
+        this.enumFaculty = enumFaculty;
         this.groupList = groupList;
     }
 
@@ -26,7 +27,10 @@ public class Faculty {
         return groupList;
     }
 
-    public void setGroupList(List<Group> groupList) {
+    public void setGroupList(List<Group> groupList) throws LackGroupInFacultyException {
+        if (groupList.isEmpty() || groupList == null){
+            throw new LackGroupInFacultyException();
+        }
         this.groupList = groupList;
     }
 
